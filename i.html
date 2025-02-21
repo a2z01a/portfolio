@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Angelo's Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- If you are using FontAwesome, ensure you include the stylesheet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-p+U9N9+L3W32N3P1f0ojHxD9X7NqX+u5W2tGdxZlUQkFjh7zSJlO+YsH3wfj5Ufu5KAWPn9J2BsOVc4G06WZpg==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Lato', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: #333;
+      overflow: hidden;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+    }
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 1rem;
+      background: radial-gradient(circle, #ff7e5f, #feb47b);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .header h1 {
+      color: #333; /* Dark tone for contrast */
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 700;
+    }
+    .subtitle {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 0.5rem 0 0 0;
+      font-weight: 400;
+    }
+    /* BACKGROUND BLUR & VIGNETTE */
+    .background-blur {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      filter: blur(15px);
+      z-index: 1;
+      display: none;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .vignette {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, transparent, rgba(0, 0, 0, 0.5));
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* CONTAINER & SCROLLABLE CONTENT */
+    .container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 10;
+    }
+    .scrollable-content {
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      position: relative;
+    }
+    .scrollable-content::-webkit-scrollbar {
+      display: none;
+    }
+    /* HERO SECTION */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to bottom, #76b852, #8dc26f);
+      text-align: center;
+      scroll-snap-align: start;
+    }
+    .hero h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 3rem;
+      color: #fff;
+      margin: 0;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      max-width: 650px;
+    }
+    .hero p {
+      font-family: 'Lato', sans-serif;
+      color: #fff;
+      font-size: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.4;
+    }
+    /* POST SECTIONS */
+    .post {
+      scroll-snap-align: center;
+      height: 100vh;
+      padding-top: 5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      position: relative;
+      z-index: 5;
+      will-change: transform;
+    }
+    /* Category title */
+    .category-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .category-title.active {
+      opacity: 1;
+    }
+    /* Horizontal post row wrapper for carousel */
+    .post-row-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    /* Horizontal post row (carousel) */
+    .post-row {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 2rem;
+      cursor: grab;
+    }
+    .post-row.active-scrolling {
+      cursor: grabbing;
+    }
+    .post-row::-webkit-scrollbar {
+      display: none;
+    }
+    .post-row {
+      scrollbar-width: none;
+    }
+    /* Scroll buttons (dynamically shown/hidden) */
+    .scroll-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.8);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      z-index: 100;
+      font-size: 1.5rem;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .scroll-button.left {
+      left: 10px;
+    }
+    .scroll-button.right {
+      right: 10px;
+    }
+    /* CONTENT BOXES */
+    .content {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: center;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      backdrop-filter: blur(10px);
+      flex: 0 0 auto;
+      width: 300px;
+      scroll-snap-align: center;
+      position: relative;
+      z-index: 5;
+    }
+    .content h3 {
+      margin-top: 1rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .content img {
+      max-width: 100%;
+      max-height: 20rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      cursor: pointer;
+    }
+    .content img:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+    /* FOOTER SECTION */
+    .footer-hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #333;
+      text-align: center;
+      scroll-snap-align: center;
+      color: #fff;
+      z-index: 5;
+    }
+    .footer-hero .content {
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    /* SOCIAL MEDIA STYLES */
+    .social-media-container {
+      background: #222;
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 20px;
+      margin: 1rem auto 0 auto;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .social-media {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .social-btn {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+    .social-btn i {
+      font-size: 1.8rem;
+      color: inherit; /* Inherit color from parent */
+    }
+    .social-btn:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.4);
+    }
+    /* SOCIAL MESSAGE MODAL */
+    .social-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 1rem;
+      z-index: 400;
+    }
+    /* IMAGE MODAL */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+    }
+    .modal span.close-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .modal span.close-button:hover {
+      background: rgba(255,255,255,0.5);
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .modal .modal-instructions {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.8);
+      color: #333;
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Angelo's Portfolio</h1>
+    <p class="subtitle">Digital Designer &amp; Front-End Developer</p>
+  </div>
+
+  <!-- BACKGROUND BLUR & VIGNETTE -->
+  <div class="background-blur" id="background-blur"></div>
+  <div class="vignette" id="vignette"></div>
+
+  <!-- CONTAINER & SCROLLABLE CONTENT -->
+  <div class="container">
+    <div class="scrollable-content" id="scrollable-content">
+      
+      <!-- HERO SECTION -->
+      <div class="hero">
+        <div>
+          <h2>Transforming Ideas<br>Into High-Impact<br>Designs &amp; Code</h2>
+          <p>I specialize in creating engaging visuals<br>and clean, efficient code.</p>
+        </div>
+      </div>
+      
+      <!-- (Other posts here...) -->
+      
+      <!-- FOOTER SECTION with Copyright and Social Media -->
+      <div class="footer-hero">
+        <div class="content">
+          <h3>Angelo's Portfolio</h3>
+          <p>© 2025 Angelo's Portfolio.<br>
+          All brand names, logos, designs, and intellectual property featured in this portfolio belong to their respective owners and are displayed for skills demonstration purposes only.<br>
+          This showcase of previous work does not claim ownership or rights to any proprietary content.</p>
+        </div>
+        <div class="social-media-container">
+          <div class="social-media">
+            <div class="social-btn instagram" data-message="I prefer meaningful professional connections. Let's arrange a conversation to discuss how my skills can benefit your team.">
+              <i class="fa-brands fa-square-instagram"></i>
+            </div>
+            <div class="social-btn facebook" data-message="I prefer meaningful professional connections. Let's arrange a conversation to discuss how my skills can benefit your team.">
+              <i class="fa-brands fa-facebook"></i>
+            </div>
+            <a href="https://github.com/yourprofile" target="_blank" class="social-btn github" style="color: inherit; text-decoration: none;">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="social-btn linkedin" style="color: inherit; text-decoration: none;">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- SOCIAL MESSAGE MODAL -->
+      <div class="social-message" id="social-message">I prefer meaningful professional connections. Let's arrange a conversation to discuss how my skills can benefit your team.</div>
+      
+    </div> <!-- END .scrollable-content -->
+  </div> <!-- END .container -->
+
+  <!-- IMAGE MODAL (for full screen view) -->
+  <div class="modal" id="modal">
+    <span class="close-button" id="close-modal">×</span>
+    <img id="modal-img" src="" alt="Full Image">
+    <div class="modal-instructions" id="modal-instructions">
+      Double-click to zoom. Click and drag to move. Click (X) to close.
+    </div>
+  </div>
+  
+  <script>
+    // Social Media Button Modal for Instagram & Facebook
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', function(event) {
+        if(this.getAttribute('data-message')) {
+          event.preventDefault();
+          const popup = document.getElementById('social-message');
+          popup.textContent = this.getAttribute('data-message');
+          popup.style.display = 'flex';
+          popup.style.opacity = '1';
+  
+          // Hide after 3 seconds
+          setTimeout(() => {
+            popup.style.opacity = '0';
+            setTimeout(() => popup.style.display = 'none', 500);
+          }, 3000);
+        }
+      });
+    });
+  </script>
+  
+  <script>
+    /* ---------------------------
+       Throttled Scroll & Background Update Logic
+       --------------------------- */
+    const posts = document.querySelectorAll('.post');
+    const scrollableContent = document.getElementById('scrollable-content');
+    const backgroundBlur = document.getElementById('background-blur');
+    let currentIndex = -1;
+    let isTicking = false;
+  
+    function updateOnScroll() {
+      const closest = Array.from(posts).reduce((closest, post, index) => {
+        const rect = post.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height/2 - window.innerHeight/2);
+        const scale = 1 - Math.min(distance / (window.innerHeight/2), 0.5);
+        post.style.transform = `scale(${scale})`;
+        return distance < closest.distance ? { index, distance } : closest;
+      }, { index: -1, distance: Infinity });
+  
+      if (closest.index !== -1 && closest.index !== currentIndex) {
+        currentIndex = closest.index;
+        updateBackgroundBlur();
+      }
+    }
+  
+    scrollableContent.addEventListener('scroll', () => {
+      if (!isTicking) {
+        window.requestAnimationFrame(() => {
+          updateOnScroll();
+          isTicking = false;
+        });
+        isTicking = true;
+      }
+    });
+  
+    function updateBackgroundBlur() {
+      const activePost = posts[currentIndex];
+      if (activePost) {
+        const img = activePost.querySelector('.content img');
+        if (img) {
+          backgroundBlur.style.backgroundImage = `url(${img.src})`;
+          backgroundBlur.style.display = 'block';
+          backgroundBlur.style.transform = 'scale(1.2)';
+        }
+      }
+      updateCategoryTitles();
+    }
+  
+    function updateCategoryTitles() {
+      posts.forEach((post, index) => {
+        const title = post.querySelector('.category-title');
+        if (title) {
+          if(index === currentIndex) {
+            title.classList.add('active');
+          } else {
+            title.classList.remove('active');
+          }
+        }
+      });
+    }
+  </script>
+  
+  <script>
+    /* ---------------------------
+       Horizontal Drag-to-Scroll for .post-row
+       --------------------------- */
+    const postRows = document.querySelectorAll('.post-row');
+    postRows.forEach(row => {
+      let isDown = false;
+      let startX, scrollLeft;
+      row.addEventListener('mousedown', (e) => {
+        isDown = true;
+        row.classList.add('active-scrolling');
+        startX = e.pageX - row.offsetLeft;
+        scrollLeft = row.scrollLeft;
+      });
+      row.addEventListener('mouseleave', () => {
+        isDown = false;
+        row.classList.remove('active-scrolling');
+      });
+      row.addEventListener('mouseup', () => {
+        isDown = false;
+        row.classList.remove('active-scrolling');
+      });
+      row.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - row.offsetLeft;
+        const walk = x - startX;
+        row.scrollLeft = scrollLeft - walk;
+      });
+    });
+  
+    /* ---------------------------
+       Scroll Buttons for Horizontal Scrolling
+       --------------------------- */
+    function updateScrollButtons(row, leftBtn, rightBtn) {
+      if(row.scrollWidth <= row.clientWidth){
+        leftBtn.style.display = 'none';
+        rightBtn.style.display = 'none';
+      } else {
+        leftBtn.style.display = row.scrollLeft > 0 ? 'block' : 'none';
+        rightBtn.style.display = (row.scrollLeft + row.clientWidth < row.scrollWidth - 1) ? 'block' : 'none';
+      }
+    }
+  
+    document.querySelectorAll('.post-row-wrapper').forEach(wrapper => {
+      const row = wrapper.querySelector('.post-row');
+      const leftBtn = wrapper.querySelector('.scroll-button.left');
+      const rightBtn = wrapper.querySelector('.scroll-button.right');
+      updateScrollButtons(row, leftBtn, rightBtn);
+      row.addEventListener('scroll', () => {
+        updateScrollButtons(row, leftBtn, rightBtn);
+      });
+      leftBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        row.scrollBy({ left: -300, behavior: 'smooth' });
+      });
+      rightBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        row.scrollBy({ left: 300, behavior: 'smooth' });
+      });
+    });
+  
+    /* ---------------------------
+       IMAGE MODAL Functionality
+       --------------------------- */
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeModal = document.getElementById('close-modal');
+    const modalInstructions = document.getElementById('modal-instructions');
+  
+    document.querySelectorAll('.content img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        modal.style.display = 'flex';
+        const fullSrc = img.getAttribute('data-full') || img.src;
+        modalImg.src = fullSrc;
+        modalInstructions.style.opacity = '1';
+      });
+    });
+  
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  
+    let isZoomed = false;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+    let offsetX = 0, offsetY = 0;
+  
+    modalImg.addEventListener('dblclick', () => {
+      if (!isZoomed) {
+        isZoomed = true;
+        modalImg.style.cursor = 'grab';
+        modalImg.style.transform = 'scale(2) translate(0, 0)';
+        modalInstructions.style.opacity = '0';
+      } else {
+        isZoomed = false;
+        modalImg.style.transform = 'scale(1) translate(0, 0)';
+      }
+    });
+  
+    modalImg.addEventListener('mousedown', (e) => {
+      if (!isZoomed) return;
+      isDragging = true;
+      startX = e.clientX - offsetX;
+      startY = e.clientY - offsetY;
+    });
+  
+    modalImg.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      offsetX = e.clientX - startX;
+      offsetY = e.clientY - startY;
+      modalImg.style.transform = `scale(2) translate(${offsetX}px, ${offsetY}px)`;
+    });
+  
+    modalImg.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  
+    modalImg.addEventListener('mouseleave', () => {
+      isDragging = false;
+    });
+  </script>
+
+</body>
+</html>
