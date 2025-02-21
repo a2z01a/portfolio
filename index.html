@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Angelo's Portfolio</title>
+  <script src="https://kit.fontawesome.com/62e081057c.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -132,7 +133,7 @@
       position: relative;
       z-index: 5;
     }
-    /* Category title in normal flow – 1rem above the boxes */
+    /* Category title in normal flow */
     .category-title {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
@@ -230,6 +231,7 @@
     .footer-hero {
       height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       background: #333;
@@ -244,7 +246,60 @@
       padding: 2rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
-    /* IMAGE MODAL */
+    /* SOCIAL MEDIA STYLES */
+    .social-media-container {
+      background: #222;
+      width: 90%;
+      max-width: 300px;
+      text-align: center;
+      padding: 2rem;
+      border-radius: 20px;
+      margin: 1rem auto 0 auto; /* 1rem gap under the content */
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .social-media {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .social-btn {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+    .social-btn img {
+      width: 32px;
+      height: 32px;
+      filter: invert(1);
+    }
+    .social-btn:hover {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.4);
+    }
+    /* SOCIAL MESSAGE MODAL (for Instagram & Facebook) */
+    .social-message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 1rem;
+      z-index: 400;
+    }
+    /* IMAGE MODAL (existing for images) */
     .modal {
       position: fixed;
       top: 0;
@@ -477,7 +532,7 @@
       <!-- SECOND POST (Category: Designs) -->
       <div class="post" data-project-images="/img/web-design/lasermeddent%20preview.jpg">
         <div class="category-title">Web Designs</div>
-        <div class="post-row-wrapper">
+        <div class="post-row-wrapper" style="align-items:center!important;">
           <div class="post-row">
             <div class="content">
               <img alt="Project Image" src="img/web-design/articlima.png" data-full="img/web-design/articlima.png">
@@ -485,7 +540,7 @@
               <p>Web Design for HVAC operations website</p>
             </div>
             <div class="content">
-              <img alt="Project Image" src="/img/web-design/lasermeddent%20preview.jpg" data-full="/img/web-design/lasermeddent%20preview.jpg">
+              <img alt="Project Image" src="img/web-design/lasermeddent-preview.jpg" data-full="img/web-design/lasermeddent-preview.jpg">
               <h3>LaserMed Dent</h3>
               <p>Web Design for Dental Practice Office Website</p>
             </div>
@@ -567,13 +622,33 @@
         </div>
       </div>
       
-      <!-- FOOTER SECTION -->
       <div class="footer-hero">
         <div class="content">
           <h3>Angelo's Portfolio</h3>
-          <p>© 2024 Angelo's Portfolio. All rights reserved.</p>
+          <p>© 2025 Angelo's Portfolio.<br>
+          All brand names, logos, designs, and intellectual property featured in this portfolio belong to their respective owners and are displayed for skills demonstration purposes only.<br>
+          This showcase of previous work does not claim ownership or rights to any proprietary content.</p>
+        </div>
+        <div class="social-media-container">
+          <div class="social-media">
+            <div class="social-btn instagram" data-message="I prefer meaningful professional connections. Let's arrange a conversation to discuss how my skills can benefit your team.">
+              <i class="fa-brands fa-square-instagram"></i>
+            </div>
+            <div class="social-btn facebook" data-message="I prefer meaningful professional connections. Let's arrange a conversation to discuss how my skills can benefit your team.">
+              <i class="fa-brands fa-facebook"></i>
+            </div>
+            <a href="https://github.com/yourprofile" target="_blank" class="social-btn github">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="social-btn linkedin">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+          </div>
         </div>
       </div>
+      
+      <!-- SOCIAL MESSAGE MODAL -->
+      <div class="social-message" id="social-message">It would be nicer to get to know me in real life than on social media.</div>
       
     </div> <!-- END .scrollable-content -->
   </div> <!-- END .container -->
@@ -586,7 +661,29 @@
       Double-click to zoom. Click and drag to move. Click (X) to close.
     </div>
   </div>
-
+  
+  <script>
+    // Social Media Button Modal for Instagram & Facebook
+    document.querySelectorAll('.social-btn').forEach(btn => {
+      btn.addEventListener('click', function(event) {
+        // Only prevent default for buttons that have a data-message
+        if(this.getAttribute('data-message')) {
+          event.preventDefault();
+          const popup = document.getElementById('social-message');
+          popup.textContent = this.getAttribute('data-message');
+          popup.style.display = 'flex';
+          popup.style.opacity = '1';
+  
+          // Hide after 3 seconds
+          setTimeout(() => {
+            popup.style.opacity = '0';
+            setTimeout(() => popup.style.display = 'none', 500);
+          }, 3000);
+        }
+      });
+    });
+  </script>
+  
   <script>
     /* ---------------------------
        Horizontal Drag-to-Scroll for .post-row
@@ -617,7 +714,7 @@
         row.scrollLeft = scrollLeft - walk;
       });
     });
-
+  
     /* ---------------------------
        Scroll Buttons for Horizontal Scrolling
        --------------------------- */
@@ -630,7 +727,7 @@
         rightBtn.style.display = (row.scrollLeft + row.clientWidth < row.scrollWidth - 1) ? 'block' : 'none';
       }
     }
-
+  
     document.querySelectorAll('.post-row-wrapper').forEach(wrapper => {
       const row = wrapper.querySelector('.post-row');
       const leftBtn = wrapper.querySelector('.scroll-button.left');
@@ -650,7 +747,7 @@
         row.scrollBy({ left: 300, behavior: 'smooth' });
       });
     });
-
+  
     /* ---------------------------
        Background Blur & Scroll Snap Logic
        --------------------------- */
@@ -658,12 +755,11 @@
     const scrollableContent = document.getElementById('scrollable-content');
     const backgroundBlur = document.getElementById('background-blur');
     let currentIndex = -1; // start at hero
-
+  
     scrollableContent.addEventListener('scroll', () => {
       const closest = Array.from(posts).reduce((closest, post, index) => {
         const rect = post.getBoundingClientRect();
         const distance = Math.abs(rect.top + rect.height/2 - window.innerHeight/2);
-        // Scale posts between 1 and 0.5 based on distance
         const scale = 1 - Math.min(distance / (window.innerHeight/2), 0.5);
         post.style.transform = `scale(${scale})`;
         return distance < closest.distance ? { index, distance } : closest;
@@ -673,7 +769,7 @@
         updateBackgroundBlur();
       }
     });
-
+  
     function updateBackgroundBlur() {
       const activePost = posts[currentIndex];
       if (activePost) {
@@ -686,7 +782,7 @@
       }
       updateCategoryTitles();
     }
-
+  
     function updateCategoryTitles() {
       posts.forEach((post, index) => {
         const title = post.querySelector('.category-title');
@@ -699,7 +795,7 @@
         }
       });
     }
-
+  
     /* ---------------------------
        IMAGE MODAL Functionality
        --------------------------- */
@@ -707,60 +803,56 @@
     const modalImg = document.getElementById('modal-img');
     const closeModal = document.getElementById('close-modal');
     const modalInstructions = document.getElementById('modal-instructions');
-
-    // Open modal when a content image is clicked
+  
     document.querySelectorAll('.content img').forEach(img => {
       img.addEventListener('click', (e) => {
         e.stopPropagation();
         modal.style.display = 'flex';
         const fullSrc = img.getAttribute('data-full') || img.src;
         modalImg.src = fullSrc;
-        modalInstructions.style.opacity = '1'; // reset instructions
+        modalInstructions.style.opacity = '1';
       });
     });
-
+  
     closeModal.addEventListener('click', () => {
       modal.style.display = 'none';
     });
-
-    /* ---------------------------
-       Zoom & Drag on Modal Image
-       --------------------------- */
+  
     let isZoomed = false;
     let isDragging = false;
     let startX = 0, startY = 0;
     let offsetX = 0, offsetY = 0;
-
+  
     modalImg.addEventListener('dblclick', () => {
       if (!isZoomed) {
         isZoomed = true;
         modalImg.style.cursor = 'grab';
         modalImg.style.transform = 'scale(2) translate(0, 0)';
-        modalInstructions.style.opacity = '0'; // fade out instructions
+        modalInstructions.style.opacity = '0';
       } else {
         isZoomed = false;
         modalImg.style.transform = 'scale(1) translate(0, 0)';
       }
     });
-
+  
     modalImg.addEventListener('mousedown', (e) => {
       if (!isZoomed) return;
       isDragging = true;
       startX = e.clientX - offsetX;
       startY = e.clientY - offsetY;
     });
-
+  
     modalImg.addEventListener('mousemove', (e) => {
       if (!isDragging) return;
       offsetX = e.clientX - startX;
       offsetY = e.clientY - startY;
       modalImg.style.transform = `scale(2) translate(${offsetX}px, ${offsetY}px)`;
     });
-
+  
     modalImg.addEventListener('mouseup', () => {
       isDragging = false;
     });
-
+  
     modalImg.addEventListener('mouseleave', () => {
       isDragging = false;
     });
