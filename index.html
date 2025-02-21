@@ -9,7 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
-    /* Base styles */
+    
     body {
       font-family: 'Lato', sans-serif;
       margin: 0;
@@ -22,11 +22,11 @@
       background-attachment: fixed;
       background-position: center;
     }
-    /* HEADER */
+    
     .header {
       text-align: center;
       padding: 1rem;
-      background: radial-gradient(circle, #ff7e5f, #feb47b);
+      background: rgba(30, 42, 56, 0.7);
       position: fixed;
       width: 100%;
       top: 0;
@@ -36,7 +36,7 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.18);
     }
     .header h1 {
-      color: #ffffff;
+      color: #fff;
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
       margin: 0;
@@ -48,7 +48,7 @@
       margin: 0.5rem 0 0 0;
       font-weight: 400;
     }
-    /* BACKGROUND BLUR & VIGNETTE */
+    
     .background-blur {
       position: fixed;
       top: 0;
@@ -73,7 +73,7 @@
       pointer-events: none;
       z-index: 2;
     }
-    /* CONTAINER & SCROLLABLE CONTENT */
+    
     .container {
       position: fixed;
       top: 0;
@@ -93,13 +93,13 @@
     .scrollable-content::-webkit-scrollbar {
       display: none;
     }
-    /* HERO SECTION */
+    
     .hero {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(to bottom, #76b852, #8dc26f);
+      background: linear-gradient(135deg, #1E2A38, #2A3B4F);
       text-align: center;
       scroll-snap-align: start;
     }
@@ -120,7 +120,7 @@
       margin: 0 auto;
       line-height: 1.4;
     }
-    /* POST SECTIONS */
+    
     .post {
       scroll-snap-align: center;
       height: 100vh;
@@ -133,7 +133,7 @@
       position: relative;
       z-index: 5;
     }
-    /* Category title in normal flow */
+    
     .category-title {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
@@ -148,13 +148,13 @@
     .category-title.active {
       opacity: 1;
     }
-    /* Horizontal post row wrapper for carousel */
+   
     .post-row-wrapper {
       position: relative;
       width: 100%;
       overflow: hidden;
     }
-    /* Horizontal post row (carousel) */
+    
     .post-row {
       display: flex;
       flex-direction: row;
@@ -173,7 +173,7 @@
     .post-row {
       scrollbar-width: none;
     }
-    /* Scroll buttons (dynamically shown/hidden) */
+    
     .scroll-button {
       position: absolute;
       top: 50%;
@@ -196,7 +196,7 @@
     .scroll-button.right {
       right: 10px;
     }
-    /* CONTENT BOXES */
+    
     .content {
       background: rgba(255, 255, 255, 0.8);
       border-radius: 20px;
@@ -227,14 +227,14 @@
       opacity: 0.8;
       transform: scale(1.05);
     }
-    /* FOOTER SECTION */
+    
     .footer-hero {
       height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: #333;
+      background: #2A3B4F;
       text-align: center;
       scroll-snap-align: center;
       color: #fff;
@@ -246,7 +246,7 @@
       padding: 2rem;
       box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
-    /* SOCIAL MEDIA STYLES */
+    
     .social-media-container {
       background: #222;
       width: 90%;
@@ -282,7 +282,7 @@
       transform: scale(1.1);
       background: rgba(255, 255, 255, 0.4);
     }
-    /* SOCIAL MESSAGE MODAL (for Instagram & Facebook) */
+    
     .social-message {
       position: fixed;
       top: 0;
@@ -299,7 +299,7 @@
       padding: 1rem;
       z-index: 400;
     }
-    /* IMAGE MODAL (existing for images) */
+    
     .modal {
       position: fixed;
       top: 0;
@@ -356,21 +356,21 @@
 </head>
 <body>
 
-  <!-- HEADER -->
+  
   <div class="header">
     <h1>Angelo's Portfolio</h1>
     <p class="subtitle">Digital Designer &amp; Front-End Developer</p>
   </div>
 
-  <!-- BACKGROUND BLUR & VIGNETTE -->
+  
   <div class="background-blur" id="background-blur"></div>
   <div class="vignette" id="vignette"></div>
 
-  <!-- CONTAINER & SCROLLABLE CONTENT -->
+  
   <div class="container">
     <div class="scrollable-content" id="scrollable-content">
       
-      <!-- HERO SECTION -->
+      
       <div class="hero">
         <div>
           <h2>Transforming Ideas<br>Into High-Impact<br>Designs &amp; Code</h2>
@@ -378,7 +378,7 @@
         </div>
       </div>
       
-      <!-- FIRST POST (Category: Web Designs) -->
+      
       <div class="post" data-project-images="img/emails/1-23off-summerdeal.jpg">
         <div class="category-title">Email Hero Designs</div>
         <div class="post-row-wrapper">
@@ -529,7 +529,7 @@
         </div>
       </div>
       
-      <!-- SECOND POST (Category: Designs) -->
+      
       <div class="post" data-project-images="/img/web-design/lasermeddent%20preview.jpg">
         <div class="category-title">Web Designs</div>
         <div class="post-row-wrapper" style="align-items:center!important;">
@@ -550,7 +550,7 @@
         </div>
       </div>
 	  
-	   <!-- Third POST (Category: Designs) -->
+	   
       <div class="post" data-project-images="img/Graphic design/art.jpg">
         <div class="category-title">Other Freelance Graphic Designs</div>
         <div class="post-row-wrapper">
@@ -649,13 +649,13 @@
         </div>
       </div>
       
-      <!-- SOCIAL MESSAGE MODAL -->
+      
       <div class="social-message" id="social-message">It would be nicer to get to know me in real life than on social media.</div>
       
-    </div> <!-- END .scrollable-content -->
-  </div> <!-- END .container -->
+    </div> 
+  </div> 
 
-  <!-- IMAGE MODAL (for full screen view) -->
+  
   <div class="modal" id="modal">
     <span class="close-button" id="close-modal">×</span>
     <img id="modal-img" src="" alt="Full Image">
@@ -665,10 +665,10 @@
   </div>
   
   <script>
-    // Social Media Button Modal for Instagram & Facebook
+    
     document.querySelectorAll('.social-btn').forEach(btn => {
       btn.addEventListener('click', function(event) {
-        // Only prevent default for buttons that have a data-message
+        
         if(this.getAttribute('data-message')) {
           event.preventDefault();
           const popup = document.getElementById('social-message');
@@ -676,7 +676,7 @@
           popup.style.display = 'flex';
           popup.style.opacity = '1';
   
-          // Hide after 3 seconds
+          
           setTimeout(() => {
             popup.style.opacity = '0';
             setTimeout(() => popup.style.display = 'none', 500);
@@ -687,9 +687,7 @@
   </script>
   
   <script>
-    /* ---------------------------
-       Horizontal Drag-to-Scroll for .post-row
-       --------------------------- */
+    
     const postRows = document.querySelectorAll('.post-row');
     postRows.forEach(row => {
       let isDown = false;
@@ -717,9 +715,7 @@
       });
     });
   
-    /* ---------------------------
-       Scroll Buttons for Horizontal Scrolling
-       --------------------------- */
+    
     function updateScrollButtons(row, leftBtn, rightBtn) {
       if(row.scrollWidth <= row.clientWidth){
         leftBtn.style.display = 'none';
@@ -734,9 +730,9 @@
       const row = wrapper.querySelector('.post-row');
       const leftBtn = wrapper.querySelector('.scroll-button.left');
       const rightBtn = wrapper.querySelector('.scroll-button.right');
-      // initial update
+     
       updateScrollButtons(row, leftBtn, rightBtn);
-      // update on row scroll
+      
       row.addEventListener('scroll', () => {
         updateScrollButtons(row, leftBtn, rightBtn);
       });
@@ -750,13 +746,11 @@
       });
     });
   
-    /* ---------------------------
-       Background Blur & Scroll Snap Logic
-       --------------------------- */
+    
     const posts = document.querySelectorAll('.post');
     const scrollableContent = document.getElementById('scrollable-content');
     const backgroundBlur = document.getElementById('background-blur');
-    let currentIndex = -1; // start at hero
+    let currentIndex = -1; 
   
     scrollableContent.addEventListener('scroll', () => {
       const closest = Array.from(posts).reduce((closest, post, index) => {
@@ -798,9 +792,7 @@
       });
     }
   
-    /* ---------------------------
-       IMAGE MODAL Functionality
-       --------------------------- */
+    
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modal-img');
     const closeModal = document.getElementById('close-modal');
