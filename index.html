@@ -809,8 +809,15 @@
     });
   
     closeModal.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
+	modal.style.display = 'none';
+  
+	isZoomed = false;
+	isDragging = false;
+	offsetX = 0;
+	offsetY = 0;
+	modalImg.style.transform = 'scale(1) translate(0, 0)';
+	modalImg.style.cursor = 'default';
+	});
   
     let isZoomed = false;
     let isDragging = false;
